@@ -1,148 +1,149 @@
-# بطاقات العيد — Gift Card Personalizer
+# Gift Card Personalizer
 
-تطبيق ويب بسيط يعمل بالكامل في المتصفح — بدون سيرفر، بدون مكتبات خارجية. يتيح للمستخدم اختيار تصميم بطاقة تهنئة، كتابة اسمه، وتحميلها كصورة PNG.
+A lightweight, browser-based web app for personalizing greeting cards — no server, no external libraries. Users pick a card design, type their name, and download it as a PNG image.
 
-## التشغيل السريع
+## Quick Start
 
-1. افتح `index.html` في أي متصفح حديث.
-2. اختر تصميم البطاقة من المعرض.
-3. اكتب الاسم — يظهر مباشرة على البطاقة.
-4. اضغط **حمل التهنئة** لتحميل البطاقة كصورة PNG.
+1. Open `index.html` in any modern browser.
+2. Pick a card design from the gallery.
+3. Type a name — it appears live on the card preview.
+4. Click **Download** to save the card as a PNG image.
 
-## هيكل المشروع
+## Project Structure
 
 ```
 Gift-Card/
-├── index.html          — الصفحة الرئيسية
-├── css/style.css       — التنسيقات (متجاوب + طباعة)
-├── js/config.js        — إعدادات البطاقات (عدّل هذا الملف فقط)
-├── js/app.js           — منطق التطبيق (التحديد، الرسم، التحميل)
-├── images/             — ضع صور البطاقات هنا
-└── README.md
+├── index.html          — Main page
+├── css/style.css       — Styles (responsive + print)
+├── js/config.js        — Card library config (edit only this file)
+├── js/app.js           — App logic (selection, canvas rendering, export)
+├── images/             — Place card images here
+├── README.md           — Documentation (English)
+└── README_AR.md        — Documentation (Arabic)
 ```
 
 ---
 
-## إدارة البطاقات
+## Managing Cards
 
-كل البطاقات معرّفة في ملف واحد: **`js/config.js`**. لا تحتاج تعديل أي ملف آخر.
+All cards are defined in a single file: **`js/config.js`**. No other files need to change.
 
-### إضافة بطاقة جديدة
+### Add a new card
 
-1. ضع صورة البطاقة في مجلد `images/`.
-2. افتح `js/config.js` وأضف عنصر جديد في المصفوفة `CARD_LIBRARY`:
+1. Place your card image in the `images/` folder.
+2. Open `js/config.js` and add a new entry to the `CARD_LIBRARY` array:
 
 ```js
 {
-  id: "eid-fitr",                    // معرّف فريد (بالإنجليزية، بدون مسافات)
-  label: "عيد الفطر",                // الاسم الذي يظهر تحت الصورة المصغرة
-  image: "images/eid-fitr.png",      // مسار الصورة
+  id: "eid-fitr",                    // Unique ID (English, no spaces)
+  label: "Eid Al-Fitr",             // Display name shown under the thumbnail
+  image: "images/eid-fitr.png",      // Path to the image file
   text: {
-    fontFamily: "'Georgia', serif",  // نوع الخط
-    fontSize: 60,                    // حجم الخط
-    color: "#2c4a5a",                // لون الخط
-    x: 0.62,                        // الموقع الأفقي
-    y: 0.88,                        // الموقع العمودي
+    fontFamily: "'Georgia', serif",  // Font type
+    fontSize: 60,                    // Font size in pixels
+    color: "#2c4a5a",                // Font color
+    x: 0.62,                        // Horizontal position
+    y: 0.88,                        // Vertical position
   },
 },
 ```
 
-### حذف بطاقة
+### Remove a card
 
-احذف الكائن `{ ... }` بالكامل من المصفوفة واحفظ الملف.
+Delete the entire `{ ... }` object from the array and save the file.
 
-### تغيير ترتيب البطاقات
+### Reorder cards
 
-غيّر ترتيب العناصر في المصفوفة — البطاقة الأولى تظهر محددة افتراضياً.
+Change the order of entries in the array — the first card is selected by default on page load.
 
 ---
 
-## ضبط مكان الاسم والخط
+## Customizing Name Text & Position
 
-كل بطاقة تحتوي على كائن `text` يتحكم بشكل النص وموقعه:
+Each card has a `text` object that controls the name overlay appearance and placement:
 
-### نوع الخط (`fontFamily`)
+### Font Type (`fontFamily`)
 
-قيمة CSS عادية. أمثلة:
+Any valid CSS font-family value. Examples:
 
-| القيمة | الشكل |
+| Value | Style |
 |---|---|
-| `"'Georgia', serif"` | خط كلاسيكي مع حواف (serif) |
-| `"'Arial', sans-serif"` | خط نظيف بدون حواف |
-| `"'Courier New', monospace"` | خط ثابت العرض |
-| `"'Tajawal', sans-serif"` | خط عربي حديث (يحتاج تحميل من Google Fonts) |
+| `"'Georgia', serif"` | Classic serif font |
+| `"'Arial', sans-serif"` | Clean sans-serif |
+| `"'Courier New', monospace"` | Monospace font |
+| `"'Tajawal', sans-serif"` | Arabic font (requires Google Fonts import) |
 
-### حجم الخط (`fontSize`)
+### Font Size (`fontSize`)
 
-رقم بالبكسل نسبةً لحجم الصورة الأصلي. أمثلة:
+Size in pixels relative to the original image dimensions. Examples:
 
-| القيمة | الاستخدام |
+| Value | Use case |
 |---|---|
-| `30` | نص صغير — مناسب للبطاقات المزدحمة |
-| `42` | حجم متوسط — الافتراضي |
-| `60` | نص كبير وبارز |
-| `80` | عنوان كبير جداً |
+| `30` | Small text — for busy card designs |
+| `42` | Medium — default |
+| `60` | Large and prominent |
+| `80` | Extra large heading |
 
-### لون الخط (`color`)
+### Font Color (`color`)
 
-أي لون CSS صالح (hex أو اسم لون). اختر لوناً يتباين مع خلفية البطاقة:
+Any valid CSS color (hex or named). Choose a color that contrasts with the card background:
 
-| الخلفية | اللون المقترح | القيمة |
+| Background | Suggested color | Value |
 |---|---|---|
-| خلفية فاتحة / بيضاء | نص داكن | `"#333333"` أو `"#1a4a6e"` |
-| خلفية داكنة | نص أبيض | `"#ffffff"` |
-| خلفية ملونة | نص بلون مكمّل | `"#5b2a6e"` (بنفسجي) |
+| Light / white | Dark text | `"#333333"` or `"#1a4a6e"` |
+| Dark | White text | `"#ffffff"` |
+| Colorful | Complementary | `"#5b2a6e"` (purple) |
 
-### موقع النص (`x` و `y`)
+### Text Position (`x` and `y`)
 
-قيم من `0` إلى `1` تحدد مكان الاسم على البطاقة:
+Values from `0` to `1` that determine where the name appears on the card:
 
 ```
-x: 0 = يسار        x: 0.5 = وسط        x: 1 = يمين
-y: 0 = أعلى        y: 0.5 = وسط        y: 1 = أسفل
+x: 0 = left          x: 0.5 = center        x: 1 = right
+y: 0 = top           y: 0.5 = middle         y: 1 = bottom
 ```
 
-**خريطة المواقع:**
+**Position map:**
 
 ```
 (0, 0) ─────────── (0.5, 0) ─────────── (1, 0)
   │                    │                    │
-  │    أعلى يسار       │    أعلى وسط       │    أعلى يمين
+  │    Top Left        │    Top Center      │    Top Right
   │                    │                    │
 (0, 0.5) ──────── (0.5, 0.5) ──────── (1, 0.5)
   │                    │                    │
-  │    وسط يسار        │    وسط وسط        │    وسط يمين
+  │    Mid Left        │    Center          │    Mid Right
   │                    │                    │
 (0, 1) ─────────── (0.5, 1) ─────────── (1, 1)
-      أسفل يسار       أسفل وسط           أسفل يمين
+      Bot Left         Bot Center           Bot Right
 ```
 
-**أمثلة من البطاقات الحالية:**
+**Examples from current cards:**
 
-| البطاقة | x | y | الموقع |
+| Card | x | y | Placement |
 |---|---|---|---|
-| Happy Eid Al-Fitr | `0.62` | `0.88` | أسفل يمين الوسط |
-| Eid Adha — Floral | `0.65` | `0.93` | أسفل يمين (النقش أعلى يسار) |
-| Eid Adha — Blue | `0.30` | `0.93` | أسفل يسار (النقش على اليمين) |
-| Eid Adha — Colorful | `0.68` | `0.93` | أسفل يمين (النقش على اليسار) |
+| Happy Eid Al-Fitr | `0.62` | `0.88` | Bottom center-right |
+| Eid Adha — Floral | `0.65` | `0.93` | Bottom right (pattern top-left) |
+| Eid Adha — Blue | `0.30` | `0.93` | Bottom left (pattern on right) |
+| Eid Adha — Colorful | `0.68` | `0.93` | Bottom right (pattern on left) |
 
-> **نصيحة:** جرّب قيم مختلفة واحفظ الملف ثم حدّث المتصفح لترى النتيجة فوراً.
+> **Tip:** Try different values, save the file, and refresh the browser to see the result instantly.
 
 ---
 
-## المميزات
+## Features
 
-- **بدون مكتبات خارجية** — HTML + CSS + JavaScript فقط
-- **معاينة مباشرة** — الاسم يظهر فوراً أثناء الكتابة
-- **تحميل PNG** — يحفظ البطاقة كصورة عالية الجودة
-- **حجم ديناميكي** — المعاينة تتكيف مع حجم الصورة الأصلية
-- **RTL** — واجهة عربية من اليمين لليسار
-- **متجاوب** — يعمل على الكمبيوتر والتابلت
+- **No dependencies** — pure HTML, CSS, and JavaScript
+- **Live preview** — name appears instantly as you type
+- **Download PNG** — saves the card as a high-quality image
+- **Dynamic sizing** — preview adapts to the original image dimensions
+- **RTL** — Arabic interface, right-to-left layout
+- **Responsive** — works on desktop and tablet
 
-## دعم المتصفحات
+## Browser Support
 
-Chrome, Firefox, Safari, Edge (أحدث الإصدارات).
+Chrome, Firefox, Safari, Edge (latest versions).
 
-## صنع بواسطة
+## Made by
 
 [Meshari Albashiri](https://www.linkedin.com/in/meshari-albashiri/)
