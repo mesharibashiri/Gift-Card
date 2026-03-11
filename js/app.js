@@ -30,7 +30,7 @@
     });
 
     nameInput.addEventListener("input", renderPreview);
-    if (printBtn) printBtn.addEventListener("click", handlePrint);
+    printBtn.addEventListener("click", handlePrint);
     downloadBtn.addEventListener("click", handleDownload);
   }
 
